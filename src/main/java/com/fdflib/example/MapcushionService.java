@@ -284,5 +284,7 @@ public class MapcushionService {
         System.out.println("\n^^^^^^^^^^^^^^^^ Custom Query Results ^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println("year make and model: " + myBoxster.year + " " + myBoxster.make + " " + myBoxster.model);
         System.out.println("name: " + myBoxster.name + " Desc: " + myBoxster.description);
+        System.out.println("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
     }
 }

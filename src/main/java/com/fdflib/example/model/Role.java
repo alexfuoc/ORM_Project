@@ -7,7 +7,6 @@ import com.fdflib.model.state.CommonState;
  * Role class
  */
 public class Role extends CommonState{
-
     public String name = "";
     public String description = "";
 
