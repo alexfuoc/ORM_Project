@@ -1,14 +1,14 @@
 package com.fdflib.example.model;
 
+import com.fdflib.annotation.FdfIgnore;
 import com.fdflib.model.state.CommonState;
 
 /**
- * Location Class
- * Long, lat and alt are measured to the 6th decimal.
- * Depending on the device and accuracy the number of decimals could change.
+ * Floor Class,
+ * Will have one location and tenant.
+ * Can have 1 or more floors
  */
-public class Location extends CommonState {
-    public String name = "";
+public class Floor extends CommonState {
     public String description = "";
     public double maxLat = 0; // EX: 128.345804
     public double maxLong = 0;
@@ -16,7 +16,12 @@ public class Location extends CommonState {
     public double minLat = 0;
     public double minLong = 0;
     public double minAlt = 0;
-    //Tenant ID also
+    public long locationId = -1L;
+    //Tenant Id also
 
-    public Location() { super(); }
+    @FdfIgnore
+    public Location location = null;
+
+    public Floor(){super();}
+
 }

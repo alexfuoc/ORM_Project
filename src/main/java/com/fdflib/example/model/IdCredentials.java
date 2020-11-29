@@ -6,8 +6,6 @@ import com.fdflib.model.state.CommonState;
 import java.util.Date;
 
 public class IdCredentials extends CommonState {
-    //userId  int,
-    //addressId  int,
     public String idType = "";
     public Date idDateIssued = null;
     public Date idExperation = null;
@@ -16,6 +14,7 @@ public class IdCredentials extends CommonState {
     public String eyeColor = "";
     public double height = 0; //in total inches
     public int weight = 0;
+    public boolean isPrimary = false;
     public long addressId = -1L;
     public long userId = -1L;
 

@@ -1,15 +1,14 @@
 package com.fdflib.example;
 
-import com.fdflib.example.model.Role;
+import com.fdflib.example.model.*;
 import com.fdflib.example.service.RoleService;
-import com.fdflib.example.model.Car;
-import com.fdflib.example.model.CarMake;
-import com.fdflib.example.model.Driver;
 import com.fdflib.example.service.CarService;
 import com.fdflib.example.service.DriverService;
 import com.fdflib.model.entity.FdfEntity;
+import com.fdflib.model.state.FdfTenant;
 import com.fdflib.persistence.database.DatabaseUtil;
 import com.fdflib.service.FdfServices;
+import com.fdflib.service.FdfTenantServices;
 import com.fdflib.util.FdfSettings;
 
 import java.util.ArrayList;
@@ -33,6 +32,16 @@ public class MapcushionService {
         myModel.add(Driver.class);
         myModel.add(Car.class);
         myModel.add(Role.class);
+        myModel.add(User.class);
+        myModel.add(IdCredentials.class);
+        myModel.add(Address.class);
+        myModel.add(UserRole.class);
+        myModel.add(TenantRole.class);
+        myModel.add(TenantUser.class);
+        myModel.add(Location.class);
+        myModel.add(Floor.class);
+        myModel.add(Beacon.class);
+
 
         // call the initialization of library!
         FdfServices.initializeFdfDataModel(myModel);
@@ -102,16 +111,56 @@ public class MapcushionService {
     }
 
     private static void insertSomeData() throws InterruptedException {
+        //Services
         DriverService ds = new DriverService();
         CarService cs = new CarService();
         RoleService rs = new RoleService();
+        FdfTenantServices tenantService = new FdfTenantServices();
 
-        // create a few roles
+        // create a new tenant
+        FdfTenant tenant2 = new FdfTenant();
+        tenant2.name = "Mapcushion2";
+        tenant2.description = "Second tenant system.";
+        tenant2.isPrimary = false;
+        tenantService.saveTenant(tenant2);
+
+        // create default roles
         Role clientUser = new Role();
         clientUser.name = "Client-User";
         clientUser.description = "Basic client user account can report locations to the system but not\n" +
                 "see maps or locations.";
         rs.saveRole(clientUser);
+
+        Role clientMapViewer = new Role();
+        clientMapViewer.name = "Client-Map-Viewer";
+        clientMapViewer.description = "Client account with privileges to view users current location\n" +
+                "information, can be used by school administrators and local authorities to view\n" +
+                "the current location of personal without needing to modify information.";
+        rs.saveRole(clientMapViewer);
+
+        Role clientBeaconManager = new Role();
+        clientBeaconManager.name = "Client-Beacon-Manager";
+        clientBeaconManager.description = "Manager of client account can perform client operations\n" +
+                "including managing beacons and viewing users current locations";
+        rs.saveRole(clientBeaconManager);
+
+        Role clientManager = new Role();
+        clientManager.name = "Client-Manager";
+        clientManager.description = "Manager of client account can perform client operations\n" +
+                "including managing maps, beacons and viewing users current and past locations";
+        rs.saveRole(clientManager);
+
+        Role clientAdministrator = new Role();
+        clientAdministrator.name = "Client-Administrator";
+        clientAdministrator.description = "Can administer information within client account";
+        rs.saveRole(clientAdministrator);
+
+        Role omniAdministrator = new Role();
+        omniAdministrator.name = "Omni-Administrator";
+        omniAdministrator.description = "Can administer any client, can also create, edit or delete\n" +
+                "clients";
+        rs.saveRole(omniAdministrator);
+
 
         // create a few of drivers
         Driver sam = new Driver();
@@ -285,6 +334,14 @@ public class MapcushionService {
         System.out.println("year make and model: " + myBoxster.year + " " + myBoxster.make + " " + myBoxster.model);
         System.out.println("name: " + myBoxster.name + " Desc: " + myBoxster.description);
         System.out.println("\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+        List<FdfTenant> tenants = tenantService.getAllTenants();
+        System.out.println("\n---------------- Tenant Query ----------------");
+        for(FdfTenant tenant: tenants){
+            System.out.println("Tenant Id: " + tenant.id + "\t Tenant Name: "
+                    + tenant.name + "\nTenant Description: "
+                    + tenant.description);
+        }
 
     }
 }
