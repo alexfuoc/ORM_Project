@@ -16,6 +16,7 @@ public class Beacon extends CommonState {
     public double Lat = 0;
     public double Long = 0;
     public double Alt = 0;
+    public boolean beaconDeployed = true;
     public long floorId = -1L;
     public long locationId = -1L;
 
